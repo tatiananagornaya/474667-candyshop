@@ -1,7 +1,7 @@
-# Личный проект «Кэндишоп» [![Build status][travis-image]][travis-url]
+﻿# Личный проект «Кэндишоп» [![Build status][travis-image]][travis-url]
 
 * Студент: [Tanya Nagornaya](https://up.htmlacademy.ru/javascript/15/user/474667).
-* Наставник: `Неизвестно`.
+* Наставник: `Aleksey Hapov`.
 
 ---
 
