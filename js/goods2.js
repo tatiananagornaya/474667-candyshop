@@ -112,6 +112,41 @@ var getAmountClass = function (product) {
   return amountClass;
 };
 
+/*
+var getCatalogCard = function (product) {
+	var template = templateCatalogCard.cloneNode(true);
+	var amountClass;
+	if (product.amount === 0) {
+		amountClass = 'card--soon';
+	} else if ( product.amount >= 1 && product.amount <= 5) {
+		amountClass = 'card--little';
+	} else { 
+		amountClass = 'card--in-stock';
+	}
+	template.classList.add(amountClass);
+	return template;
+};
+
+var getCatalogCardsArray = function () {
+  var array = [];
+  for (var i = 0; i < productCardsArray.length; i++) {
+    array.push(getCatalogCard(productCardsArray));
+  }
+  return array;
+};
+var catalogCardsArray = getCatalogCardsArray();
+
+перенесла в функцию renderCatalogCard:
+var cardTitle = templateCatalogCard.querySelector('.card_title')
+cardTitle.textContent = product.name;
+
+var cardPrice = templateCatalogCard.querySelector('.card__price');
+cardPrice.innerHTML = product.price + '<span class="card__currency">₽</span><span class="card__weight">/' + product.weight +  'Г</span>';
+*/
+
+// перенесла в функцию renderCatalogCard:
+// var starsRating = templateCatalogCard.querySelector('.stars__rating');
+
 var getStarsRating = function (product) {
   var starsRatingClass;
   if (product.rating.value === 1) {
@@ -126,8 +161,9 @@ var getStarsRating = function (product) {
   }
   return starsRatingClass;
 };
+// перенесла в функцию renderCatalogCard
+// starsRating.classList.add(getStarsRating(productCardsArray));
 
-/*
 var getStarsRatingArray = function () {
 var array = [];
   for (var i = 0; i < 5; i++) {
@@ -136,13 +172,18 @@ var array = [];
   return array;
 };
 var starsRatingArray = getStarsRatingArray();
-*/
 
+// var starCount = templateCatalogCard.querySelector('.star__count');
+//starCount.innerHTML = product.rating.number;
+
+// var cardCharacteristic = templateCatalogCard.querySelector('.card__characteristic');
 var getNutritionFacts = function (product) {
-  return product.nutritionFacts.sugar ? 'Содержит сахар' : 'Без сахара';
+  return product.nutritionFacts.sugar ? 'Содержит сахар' : 'Без сахара;
 };
+// cardCharacteristic.textContent = getNutritionFacts(productCardsArray);
 
-var getRandomContents = function () {
+// var cardCompositionList = templateCatalogCard.querySelector('.card__composition-list');
+var getRandomContents = function (product) {
   var contentsArray = [];
   for (var j = 0; j < 5; j++) {
     var productContents = getRandomElement(NUTRITION_FACTS.contents);
@@ -150,7 +191,7 @@ var getRandomContents = function () {
   }
   return contentsArray;
 };
-
+// cardCompositionList.textContent = getRandomContents(productCardsArray);
 
 var renderCatalogCard = function (product) {
   var template = templateCatalogCard.cloneNode(true);
@@ -160,10 +201,7 @@ var renderCatalogCard = function (product) {
 
   var cardPrice = template.querySelector('.card__price');
   cardPrice.innerHTML = product.price + '<span class="card__currency">₽</span><span class="card__weight">/' + product.weight +  'Г</span>';
-
-  // var cardImg = template.querySelector('.card__img');
-  // cardImg.querySelector('');
-
+  
   var starsRating = template.querySelector('.stars__rating');
   starsRating.classList.add(getStarsRating(product));
 
@@ -174,7 +212,7 @@ var renderCatalogCard = function (product) {
   cardCharacteristic.textContent = getNutritionFacts(product);
 
   var cardCompositionList = template.querySelector('.card__composition-list');
-  cardCompositionList.textContent = getRandomContents();
+  cardCompositionList.textContent = getRandomContents(product);
 
   return template;
 };
