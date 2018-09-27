@@ -55,9 +55,13 @@ var ENERGY_MIN = 70;
 var ENERGY_MAX = 500;
 var OBJECTS_MAX = 26;
 
-var getRandomElement = function(array) {
+var getRemovedElement = function(array) {
   var random = array[Math.floor(Math.random() * array.length)];
   return array.splice(random, 1);
+};
+
+var getRandomElement = function(array) {
+  return array[Math.floor(Math.random() * array.length)];
 };
 
 var getRandomNumber = function (min, max) {
@@ -66,8 +70,8 @@ var getRandomNumber = function (min, max) {
 
 var createProductCard = function () {
   return {
-    name: getRandomElement(NAME),
-    picture: getRandomElement(PICTURE),
+    name: getRemovedElement(NAME),
+    picture: getRemovedElement(PICTURE),
     amount: getRandomNumber(AMOUNT_MIN, AMOUNT_MAX),
     price: getRandomNumber(PRICE_MIN, PRICE_MAX),
     weight: getRandomNumber(WEIGHT_MIN, WEIGHT_MAX),
@@ -141,6 +145,20 @@ var getRandomContents = function () {
   return contentsArray;
 };
 
+/*
+var btnShowComposition = templateCatalogCard.querySelector('.card__btn-composition');
+var cardComposition = templateCatalogCard.querySelector('.card__composition');
+var btnHideComposition = cardComposition.querySelector('.card__btn-composition');
+
+btnShowComposition.addEventListener('click', function () {
+  cardComposition.classList.remove('card__composition--hidden')
+  });
+
+btnHideComposition.addEventListener('click', function () {
+    cardComposition.classList.add('card__composition--hidden')
+  });
+*/
+
 var renderCatalogCard = function (product) {
   var template = templateCatalogCard.cloneNode(true);
 
@@ -161,8 +179,13 @@ var renderCatalogCard = function (product) {
   var starCount = template.querySelector('.star__count');
   starCount.innerHTML = product.rating.number;
 
-  // var cardComposition = template.querySelector('.card__composition');
-  // cardComposition.classList.remove('card__composition--hidden');
+  var btnShowComposition = template.querySelector('.card__btn-composition');
+  var cardComposition = template.querySelector('.card__composition');
+  // var btnHideComposition = cardComposition.querySelector('.card__btn-composition');
+
+  btnShowComposition.addEventListener('click', function () {
+    cardComposition.classList.remove('card__composition--hidden');
+  });
 
   var cardCharacteristic = template.querySelector('.card__characteristic');
   cardCharacteristic.textContent = getNutritionFacts(product);
