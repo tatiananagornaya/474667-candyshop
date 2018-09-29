@@ -55,7 +55,18 @@ var ENERGY_MIN = 70;
 var ENERGY_MAX = 500;
 var OBJECTS_MAX = 26;
 
+var shuffleArray = function (array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+};
+
 var getRemovedElement = function(array) {
+  shuffleArray(array);
   var random = array[Math.floor(Math.random() * array.length)];
   return array.splice(random, 1);
 };
@@ -66,6 +77,13 @@ var getRandomElement = function(array) {
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+};
+
+var getRandomContents = function (array) {
+  shuffleArray(array);
+  var newArray = array.slice();
+  var randomContents = Math.floor(Math.random() * array.length);
+  return newArray.splice(1, randomContents);
 };
 
 var createProductCard = function () {
@@ -82,7 +100,7 @@ var createProductCard = function () {
     nutritionFacts: {
       sugar: getRandomElement(NUTRITION_FACTS.sugar),
       energy: getRandomNumber(ENERGY_MIN, ENERGY_MAX),
-      contents: getRandomElement(NUTRITION_FACTS.contents),
+      contents: getRandomContents(NUTRITION_FACTS.contents),
     }
   }
 };
@@ -136,29 +154,6 @@ var getNutritionFacts = function (product) {
   return product.nutritionFacts.sugar ? 'Содержит сахар' : 'Без сахара';
 };
 
-var getRandomContents = function () {
-  var contentsArray = [];
-  for (var j = 0; j < 3; j++) {
-    var productContents = getRandomElement(NUTRITION_FACTS.contents);
-    contentsArray.push(productContents);
-  }
-  return contentsArray;
-};
-
-/*
-var btnShowComposition = templateCatalogCard.querySelector('.card__btn-composition');
-var cardComposition = templateCatalogCard.querySelector('.card__composition');
-var btnHideComposition = cardComposition.querySelector('.card__btn-composition');
-
-btnShowComposition.addEventListener('click', function () {
-  cardComposition.classList.remove('card__composition--hidden')
-  });
-
-btnHideComposition.addEventListener('click', function () {
-    cardComposition.classList.add('card__composition--hidden')
-  });
-*/
-
 var renderCatalogCard = function (product) {
   var template = templateCatalogCard.cloneNode(true);
 
@@ -181,17 +176,15 @@ var renderCatalogCard = function (product) {
 
   var btnShowComposition = template.querySelector('.card__btn-composition');
   var cardComposition = template.querySelector('.card__composition');
-  // var btnHideComposition = cardComposition.querySelector('.card__btn-composition');
-
   btnShowComposition.addEventListener('click', function () {
-    cardComposition.classList.remove('card__composition--hidden');
+    cardComposition.classList.toggle('card__composition--hidden');
   });
 
   var cardCharacteristic = template.querySelector('.card__characteristic');
   cardCharacteristic.textContent = getNutritionFacts(product);
 
   var cardCompositionList = template.querySelector('.card__composition-list');
-  cardCompositionList.textContent = getRandomContents();
+  cardCompositionList.textContent = product.nutritionFacts.contents;
 
   return template;
 };
@@ -211,19 +204,13 @@ goodsCards.classList.remove('goods__cards--empty');
 goodsCards.querySelector('.goods__card-empty').classList.add('visually-hidden');
 
 var getOrderedGoodsArray = function () {
-  var array = [];
-  for (var i = 0; i < 3; i++) {
-    array.push(createProductCard());
-  }
-  return array;
+  shuffleArray(productCardsArray);
+  var newArray = productCardsArray.slice();
+  var random = newArray[Math.floor(Math.random() * newArray.length)];
+  return newArray.splice(random, 3);
+
 };
 var orderedGoodsArray = getOrderedGoodsArray();
-
-/*
-var renderOrderedCards = function (array) {
-  return renderCatalogCard(array);
-};
-*/
 
 var fragmentGoods = document.createDocumentFragment();
 for (var j = 0; j < orderedGoodsArray.length; j++) {
