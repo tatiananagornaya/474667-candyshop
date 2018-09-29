@@ -82,7 +82,7 @@ var getRandomNumber = function (min, max) {
 var getRandomContents = function (array) {
   shuffleArray(array);
   var newArray = array.slice();
-  var randomContents = Math.floor(Math.random() * array.length);
+  var randomContents = Math.floor(Math.random() * 10);
   return newArray.splice(1, randomContents);
 };
 
