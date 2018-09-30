@@ -54,6 +54,8 @@ var NUTRITION_FACTS = {
 var ENERGY_MIN = 70;
 var ENERGY_MAX = 500;
 var OBJECTS_MAX = 26;
+var CONTENTS_MIN = 2;
+var CONTENTS_MAX = 10;
 
 var shuffleArray = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
@@ -65,8 +67,7 @@ var shuffleArray = function (array) {
   return array;
 };
 
-var getRemovedElement = function(array) {
-  shuffleArray(array);
+var getRemovedElement = function(shuffle, array) {
   var random = array[Math.floor(Math.random() * array.length)];
   return array.splice(random, 1);
 };
@@ -79,17 +80,16 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var getRandomContents = function (array) {
-  shuffleArray(array);
+var getRandomContents = function (shuffle, array) {
   var newArray = array.slice();
-  var randomContents = Math.floor(Math.random() * 10);
+  var randomContents = getRandomNumber(CONTENTS_MIN, CONTENTS_MAX);
   return newArray.splice(1, randomContents);
 };
 
 var createProductCard = function () {
   return {
-    name: getRemovedElement(NAME),
-    picture: getRemovedElement(PICTURE),
+    name: getRemovedElement(shuffleArray(NAME), NAME),
+    picture: getRemovedElement(shuffleArray(PICTURE), PICTURE),
     amount: getRandomNumber(AMOUNT_MIN, AMOUNT_MAX),
     price: getRandomNumber(PRICE_MIN, PRICE_MAX),
     weight: getRandomNumber(WEIGHT_MIN, WEIGHT_MAX),
@@ -100,7 +100,7 @@ var createProductCard = function () {
     nutritionFacts: {
       sugar: getRandomElement(NUTRITION_FACTS.sugar),
       energy: getRandomNumber(ENERGY_MIN, ENERGY_MAX),
-      contents: getRandomContents(NUTRITION_FACTS.contents),
+      contents: getRandomContents(shuffleArray(NUTRITION_FACTS.contents), NUTRITION_FACTS.contents),
     }
   }
 };
@@ -184,7 +184,7 @@ var renderCatalogCard = function (product) {
   cardCharacteristic.textContent = getNutritionFacts(product);
 
   var cardCompositionList = template.querySelector('.card__composition-list');
-  cardCompositionList.textContent = product.nutritionFacts.contents;
+  cardCompositionList.textContent = product.nutritionFacts.contents.join('; ');
 
   return template;
 };
