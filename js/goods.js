@@ -67,9 +67,10 @@ var shuffleArray = function (array) {
   return array;
 };
 
-var getRemovedElement = function(shuffle, array) {
-  var random = array[Math.floor(Math.random() * array.length)];
-  return array.splice(random, 1);
+var getRemovedElement = function(array) {
+  var shuffledArray = shuffleArray(array);
+  var random = shuffledArray[Math.floor(Math.random() * shuffledArray.length)];
+  return shuffledArray.splice(random, 1);
 };
 
 var getRandomElement = function(array) {
@@ -80,16 +81,16 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var getRandomContents = function (shuffle, array) {
-  var newArray = array.slice();
+var getRandomContents = function (array) {
+  var newArray = shuffleArray(array).slice();
   var randomContents = getRandomNumber(CONTENTS_MIN, CONTENTS_MAX);
   return newArray.splice(1, randomContents);
 };
 
 var createProductCard = function () {
   return {
-    name: getRemovedElement(shuffleArray(NAME), NAME),
-    picture: getRemovedElement(shuffleArray(PICTURE), PICTURE),
+    name: getRemovedElement(NAME),
+    picture: getRemovedElement(PICTURE),
     amount: getRandomNumber(AMOUNT_MIN, AMOUNT_MAX),
     price: getRandomNumber(PRICE_MIN, PRICE_MAX),
     weight: getRandomNumber(WEIGHT_MIN, WEIGHT_MAX),
@@ -100,7 +101,7 @@ var createProductCard = function () {
     nutritionFacts: {
       sugar: getRandomElement(NUTRITION_FACTS.sugar),
       energy: getRandomNumber(ENERGY_MIN, ENERGY_MAX),
-      contents: getRandomContents(shuffleArray(NUTRITION_FACTS.contents), NUTRITION_FACTS.contents),
+      contents: getRandomContents(NUTRITION_FACTS.contents),
     }
   }
 };
