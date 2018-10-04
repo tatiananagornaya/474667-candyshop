@@ -49,6 +49,7 @@ var ENERGY_MAX = 500;
 var OBJECTS_MAX = 26;
 var CONTENTS_MIN = 2;
 var CONTENTS_MAX = 10;
+var STARS_RATING_CLASS = ['stars__rating--one', 'stars__rating--two', 'stars__rating--three', 'stars__rating--four', 'stars__rating--five'];
 
 var shuffleArray = function (array) {
   for (var i = array.length - 1; i > 0; i--) {
@@ -130,8 +131,7 @@ var getAmountClass = function (product) {
 };
 
 var getStarsRating = function (product) {
-  var starsRatingClass = ['stars__rating--one', 'stars__rating--two', 'stars__rating--three', 'stars__rating--four', 'stars__rating--five'];
-  return starsRatingClass[product.rating.value - 1];
+  return STARS_RATING_CLASS[product.rating.value - 1];
 };
 
 var getNutritionFacts = function (product) {
