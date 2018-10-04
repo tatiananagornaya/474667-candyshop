@@ -130,19 +130,8 @@ var getAmountClass = function (product) {
 };
 
 var getStarsRating = function (product) {
-  var starsRatingClass;
-  if (product.rating.value === 1) {
-    starsRatingClass = 'stars__rating--one';
-  } else if (product.rating.value === 2) {
-    starsRatingClass = 'stars__rating--two';
-  } else if (product.rating.value === 3) {
-    starsRatingClass = 'stars__rating--three';
-  } else if (product.rating.value === 4) {
-    starsRatingClass = 'stars__rating--four';
-  } else {
-    product.rating.value = 'stars__rating--five';
-  }
-  return starsRatingClass;
+  var starsRatingClass = ['stars__rating--one', 'stars__rating--two', 'stars__rating--three', 'stars__rating--four', 'stars__rating--five'];
+  return starsRatingClass[product.rating.value - 1];
 };
 
 var getNutritionFacts = function (product) {
